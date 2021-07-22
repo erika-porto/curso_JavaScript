@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criando Elementos</title>
+    <style>
+        body {
+            background-color: rgb(15, 85, 85);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: bisque;
+            border-radius: 10px;
+            text-align: center
+        }
+
+        ;
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <h1>Criando elementos no html com JS.</h1>
+    </section>
+
+    <script>
+        //         const elementos=[
+        //             {tag:'p',texto:'Frase 1'},
+        //             {tag:'div',texto:'Frase 2'},
+        //             {tag:'footer',texto:'Frase 3'},
+        //             {tag:'section',texto:'Frase 4'},
+        //         ];
+
+        //    const container=document.querySelector('.container');
+        //    const div=document.createElement('div');
+
+        // //    criando laco de repeticao para percorrer o array elementos
+        //    for(let i=0;i < elementos.length;i++){
+
+        //     //    desestruturação de objetos, separando a tag do texto
+        //        let {tag,texto}=elementos[i];
+
+        //     //    criando a tag com laço de repetição
+        //        let tagCriada=document.createElement(tag);
+
+        //     //    para colocar o texto na tag criada
+        //     tagCriada.innerHTML=texto;
+        //        console.log(tag,texto);
+
+        //     //    colocando elementos na div , como se dissesse que a div recebe o filha tagCriada
+        //     div.appendChild(tagCriada);
+        //    };
+
+        // //    colocando a div dentro do container
+        //    container.appendChild(div);
+
+        // outra maneira de realizar isso
+
+        const elementos = [
+            { tag: 'p', texto: 'Frase 1' },
+            { tag: 'div', texto: 'Frase 2' },
+            { tag: 'footer', texto: 'Frase 3' },
+            { tag: 'section', texto: 'Frase 4' },
+        ];
+        // acionando o container
+        const container = document.querySelector('.container');
+
+        // criando uma div para abracar todos os elementos que serao criados
+        const div = document.createElement('div');
+
+        // criando laco de repeticao para percorrer o elemento e criar uma tag com texto
+        for (let i = 0; i < elementos.length; i++) {
+
+            // desestruturando o objeto
+            let { tag, texto } = elementos[i];
+            let tagCriada = document.createElement(tag);
+            let textoCriado = document.createTextNode(texto);
+
+            // mae tagCriada recebe filho texto
+            tagCriada.appendChild(textoCriado);
+
+            // mae div recebe filha tagCriada
+            div.appendChild(tagCriada);
+        }
+
+        // container mae receve div filha 
+        container.appendChild(div);
+
+
+// testando como criar sem laco de repeticao
+// const container=document.querySelector('.container');
+// const paragrafo=document.createElement('p');
+// const texto=document.createTextNode("frase 1");
+// paragrafo.appendChild(texto);
+// container.appendChild(paragrafo);
+
+    </script>
+</body>
+
+</html>

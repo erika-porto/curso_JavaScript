@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+:root{
+    --primary-color:rgb(17, 77, 77);
+    --secondary-color:rgb(43, 151, 151);
+}
+*{
+    box-sizing: border-box;
+    /* remove comportamento padaro do browser de adicionar borda a um elemento */
+    outline:none;
+}
+
+body{
+    background-color:var(--primary-color);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:1.3em;
+    line-height: 1.5em;
+    
+}
+.container{
+    max-width: 640px;
+    margin: 50px auto;
+    background-color:#fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+form input, form label,form button{
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form input:focus{
+    outline:1px solid var(--secondary-color);
+}
+
+form input{
+    padding:0 20px;
+    height: 50px;
+}
+
+form button{
+    height: 50px;
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+}
+form button:hover{
+    background-color: var(--secondary-color);
+}

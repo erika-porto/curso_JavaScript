@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(15, 85, 85);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: rgb(235, 225, 225);
+            border-radius: 10px;
+            /* text-align: center; */
+            padding: 20px;
+        }
+
+        .btn-tarefa {
+            background-color: rgb(43, 139, 139);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <h1>Lista de tarefas</h1>
+        <p>
+            <input type="text" class='input-tarefa'>
+            <button class='btn-tarefa'>Adicionar nova tarefa</button>
+        </p>
+
+        <ul class="tarefas"></ul>
+    </section>
+
+
+    <script>
+        const inputTarefa = document.querySelector('.input-tarefa');
+        const btnTarefa = document.querySelector('.btn-tarefa');
+        const tarefas = document.querySelector('.tarefas');
+
+        //  Divisões de tarefas em funções-
+        // funcao que vai criar o li para apresentar as tarefas
+        function criaLi() {
+            const li = document.createElement('li');
+            return li;
+        }
+
+        // funcao que passa o valor digitado mesmo quando pressionado enter 
+        inputTarefa.addEventListener('keypress', function (e) {
+
+            if (e.keyCode === 13) { // verifica se a tecla digitada foi enter , pelo codigo da tecla
+
+                if (!inputTarefa.value) return;  // verifica se o input nao esta vazio
+
+
+                criaTarefa(inputTarefa.value); // chama a funcao que cria a tarefa com o valor digitado no input
+            }
+        })
+
+        // funcao que limpa o input depois de adicionar a tarefa
+        function limpaInput() {
+            inputTarefa.value = '';
+
+            inputTarefa.focus(); // depois ele volta o focus para o input
+        }
+
+        // criando um botao pata apagar a tarefa criada
+        function criaBotaoApagar(li) {
+            li.innerText += '';  //adicionando espaco no botao
+
+            const botaoApagar = document.createElement('button'); //criando o botao de apagar
+
+            botaoApagar.innerText = 'Apagar'; //adicionando texto no botao
+
+            botaoApagar.setAttribute('class', 'apagar'); //colocando a class=apagar no botao
+            botaoApagar.setAttribute('title', 'apagar esse item');
+            li.appendChild(botaoApagar); // adicionando botao no li
+        }
+
+        // -criaTarefa(guarda o texto do input)
+        function criaTarefa(textoInput) {
+            const li = criaLi();
+            li.innerText = textoInput;
+
+            tarefas.appendChild(li);   //   dizendo para o ul de class='tarefas' pegar o li como filho
+            limpaInput();     // depois de criar a tarefa, deixa o input limpo
+            criaBotaoApagar(li); // adicionando o botao quando tarefa for criada
+            salvarTarefa();//funcao que salva a tarefas 
+        }
+
+        // capturando evento de click
+        btnTarefa.addEventListener('click', function () {
+
+            if (!inputTarefa.value) return;  // se eu colocar inputTarefa.value === '', isso vai retornar falso , por isso melhor definir diferente de inputTarefa.value
+
+            criaTarefa(inputTarefa.value);
+        });
+
+        //evento acionado com click que realiza a acao de apagar o pai do botao
+
+        document.addEventListener('click', function (e) {
+
+            const el = e.target;//verificacao do que esta sendo acionado
+            if (el.classList.contains('apagar')) { // se o acionado for a class apagar
+                console.log(el.parentElement); // me mostre quem e o pai dele, aprendizado apenas
+
+                el.parentElement.remove();//remova o elemento pai do elemento
+
+                salvarTarefa();// para que apague os itens do localStorage(global do navegador),pq quando aperto em apagar ele apaga o li e salva os dados , mas como nao tem nenhum li ele salva os dados sem ele
+            }
+        })
+
+        // funcao para salvar tarefas 
+        function salvarTarefa() {
+            const liTarefas = tarefas.querySelectorAll('li');//pegando todos os li criados no ul tarefas, mas eu quero os textos
+
+            const listaDeTarefas = [];
+
+
+            for (let tarefa of liTarefas) {
+
+                let tarefaTexto = tarefa.innerText;//trouxe o texto junto com o botao
+
+                //retirando o pagar e substituindo por nada 
+                tarefaTexto = tarefaTexto.replace('Apagar', '').trim();// esse trim elimina o espaco vazio
+
+                listaDeTarefas.push(tarefaTexto);//colocando a lista de tarefas no array vazio
+
+            }
+            // convertendo o array em Jason (estrutura de dados em forma de texto, facilita a troca de dados entre aplicações), como? usando o stringfy
+
+            const tarefasJSON = JSON.stringify(listaDeTarefas);
+            console.log(tarefasJSON);//salvando em formato json,posso salvar no meu navegador e depois puxar
+
+            localStorage.setItem('tarefas', tarefasJSON); //salvando isso no  meu LocalStorage, como se fosse uma mini base de dados, eu converti para json , pq aqui so posso salvar strings='tarefas'nome como sera salva o tarefasJSON
+        }
+
+        // funcao que mostra tarefas mesmo quando fechamos a pagina e a abrimos novamente
+
+        function adicionaTarefasSalvas() {
+            const tarefas = localStorage.getItem('tarefas');
+            const listaDeTarefas = JSON.parse(tarefas);//convertendo novamente para array JS
+
+            for (let tarefa of listaDeTarefas) {
+                criaTarefa(tarefa);
+            }
+        }
+        adicionaTarefasSalvas();
+
+    </script>
+</body>
+
+</html>

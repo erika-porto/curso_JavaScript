@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nome,
+        .sobrenome,
+        .idade {
+            height: 40px;
+        }
+    </style>
+    <title>formulario</title>
+</head>
+
+<body>
+    <section>
+        <h1>Formulario</h1>
+        <h3>Criando formulario que mostra os resultados digitados
+        </h3>
+        <form action="" class="form">
+            <label for="nome">Nome:</label>
+            <input type="text" class="nome">
+            <label for="sobrenome">Sobrenome:</label>
+            <input type="text" class="sobrenome">
+            <label for="idade">Idade:</label>
+            <input type="text" class="idade">
+            <button>Enviar</button>
+        </form>
+        <div class="resultado"></div>
+    </section>
+
+
+    <script>
+
+        //todo-primeiro criar uma funcao que englobe todas as micros funcoes 
+
+        //  preciso impedir que ao clicar em enviar os dados se percam evento.preventDefault
+        //acessar o formulario
+        //acessar os inputs e colocar os valores dos inputs detro de um objeto
+        // valores que estao dentro do formulario
+        //mostrar na div resultado -acessar a div resultado primeiro e depois mostrar 
+
+        function macroFuncao() {
+            const form = document.querySelector('.form');
+            const resultado = document.querySelector('.resultado');
+
+            //criando um array para salvar os dados
+            const pessoa = [];
+
+            function previneRecarregar(evento) {
+                evento.preventDefault();
+                //acessar os inputs
+                const nome = form.querySelector('.nome');
+                const sobrenome = form.querySelector('.sobrenome');
+                const idade = form.querySelector('.idade');
+
+                pessoa.push({
+                    nome: nome.value,
+                    sobrenome: sobrenome.value,
+                    idade: idade.value
+                });
+                console.log(pessoa);
+
+                resultado.innerHTML += `<p>${nome.value} ${sobrenome.value} ${idade.value}</p>`;
+            }
+
+            form.addEventListener('submit', previneRecarregar);
+
+        }
+
+        macroFuncao();
+
+    </script>
+</body>
+
+</html>

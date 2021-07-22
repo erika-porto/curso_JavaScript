@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro</title>
+    <style>
+        body {
+            background-color: rgb(15, 85, 85);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: bisque;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .relogio {
+            font-size: 3em;
+        }
+
+        /* classe pausado que da cor vermelha quando pausa o timer */
+
+        .pausado {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <section class='container'>
+        <h1>Meu timer</h1>
+        <p class='relogio'>00:00:00</p>
+        <p>
+            <button class='iniciar'>iniciar</button>
+            <button class='pausar'>pausar</button>
+            <button class='zerar'>zerar</button>
+        </p>
+
+    </section>
+
+    <script>
+
+        // criando uma funcao para tirar as funcoes do escopo global
+        function relogio() {
+            // deixando o relogio no 00:00:00 como ? Usando o new Date na primeira hora do inicio
+            function criaHoraDosSegundos(segundos) {
+                // *1000 para transformar milisegundos em segundos
+                const data = new Date(segundos * 1000);
+
+                return data.toLocaleTimeString('pt-BR', {
+                    hour12: false,
+                    // PASSANDO O TIME ZONE 01-01-70 E NAO MEU TIMEZONE AS OO HORA, CONSIDERANDO APENAS A HORA
+                    timeZone: 'GMT'
+                });
+            }
+
+            // selecionando o relogio 
+            const relogio = document.querySelector('.relogio');
+
+            // selecionando os botoes ,neste caso nao usado ,pois foi acionado com o addEventListenter, com o e.target em todo o documento
+
+            // const iniciar = document.querySelector('.iniciar');
+            // const pausar = document.querySelector('.pausar');
+            // const zerar = document.querySelector('.zerar');
+
+            // variavel que mantenha os segundos, vai ser chamada na funcao iniciaRelogio
+            let segundos = 0;
+
+            let timer;
+
+
+            function iniciaRelogio() {
+                timer = setInterval(function () {
+                    segundos++;
+                    //    VAI FORMATAR OS SEGUNDOS DO HORARIO
+                    relogio.
+                        innerHTML = criaHoraDosSegundos(segundos);
+                }, 1000);
+            }
+
+            //  codigo mais limpo , onde o evento click é acionado em qualquer lugar da pagina , e chama a funcao correspondente a class do elemento alvo
+
+            document.addEventListener('click', function (e) {
+                //  e.target indica o alvo , qual elemento esta sendo clicado
+                const el = e.target;
+
+                if (el.classList.contains('iniciar')) {
+                    // remove a cor vermelha quando inicializa
+                    relogio.classList.remove('pausado');
+
+                    // para garantir que ao reiniciar ele comeca do 0
+                    clearInterval(timer);
+                    iniciaRelogio();
+                }
+
+                if (el.classList.contains('pausar')) {
+                    //  adiciona a classe pausado , cor vermelha na fonte (definido no css)
+                    relogio.classList.add('pausado');
+
+                    //  funcao que para o setInterval
+                    clearInterval(timer);
+                }
+
+                if (el.classList.contains('zerar')) {
+                    clearInterval(timer);
+                    relogio.innerHTML = '00:00:00';
+                    //  a variavel segundos volta a ser 0
+                    segundos = 0;
+                    relogio.classList.remove('pausado');
+                }
+
+            });
+
+        }
+        relogio();
+
+        // //  escutador de eventos no iniciar, acionado no click, e realiza uma funcao
+        // iniciar.addEventListener('click', function () {
+        //     // remove a cor vermelha quando inicializ
+        //     relogio.classList.remove('pausado');
+
+        //     // para garantir que ao reiniciar ele comeca do 0
+        //     clearInterval(timer);
+        //     iniciaRelogio();
+        // });
+
+
+        // //  escutador de eventos no pausar, acionado no click, e realiza uma funcao
+        // pausar.addEventListener('click', function (evento) {
+        //     //  adiciona a classe pausado , cor vermelha na fonte (definido no css)
+        //     relogio.classList.add('pausado');
+
+        //     //  funcao que para o setInterval
+        //     clearInterval(timer);
+        // });
+
+        // //  escutador de eventos no zerar, acionado no click, e realiza uma funcao
+        // zerar.addEventListener('click', function (evento) {
+        //     clearInterval(timer);
+        //     relogio.innerHTML = '00:00:00';
+        //     //  a variavel segundos volta a ser 0
+        //     segundos = 0;
+        //     relogio.classList.remove('pausado');
+        // });
+    </script>
+
+</body>
+
+</html>

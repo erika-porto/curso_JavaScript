@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date</title>
+    <style>
+        body{
+            background-color: rgb(15, 85, 85);
+        }
+        .container{
+            max-width: 600px;
+            margin: 20px auto;
+            background-color:bisque;
+            border-radius: 10px;
+           text-align: center
+        };
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1></h1>
+    </div>
+
+    <script>
+
+    // maneira mais clean
+    const h1=document.querySelector('.container h1');
+    const data=new Date();
+    const hora=data.getHours();
+    const min=data.getMinutes();
+    h1.innerHTML=`${data.toLocaleDateString('pt-BR',{
+        dateStyle:'full'
+    })} ${hora}:${min}`;
+
+    </script>
+    
+</body>
+</html>
