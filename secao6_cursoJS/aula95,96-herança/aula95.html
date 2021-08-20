@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        //Produtos -> aumento e desconto
+        // camiseta=cor / caneca=material
+
+        function Produto(nome, preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        //criando metodos de aumento e desconto no proto
+
+        Produto.prototype.aumento = function (quantia) {
+            this.preco += quantia;
+        }
+
+        Produto.prototype.desconto = function (quantia) {
+            this.preco -= quantia;
+        }
+
+        //criando objeto camiseta 
+        function Camiseta(nome, preco, cor) {
+            Produto.call(this, nome, preco);//herança
+            this.cor = cor;
+        };
+
+
+        //linkado o prototype de produto com camiseta 
+
+        Camiseta.prototype = Object.create(Produto.prototype); //problema é que o construtor aparece como sendo produto 
+
+        Camiseta.prototype.constructor = Camiseta; // para que declarar que o constructor é camiseta
+
+        //criando metodo de aumento especifico para camiseta 
+        Camiseta.prototype.aumento = function (percentual) {
+            this.preco = this.preco + (this.preco * (percentual / 100));
+        };
+
+        //criando objeto caneca
+        function Caneca(nome, preco, material, estoque) {
+            Produto.call(this, nome, preco);
+            this.material = material;
+
+            //definindo properties
+            Object.defineProperty(this, 'estoque', {
+                enumerable: true,
+                configurable: false,
+
+                get: function () {
+                    return estoque;
+                },
+                set: function (valor) {
+                    if (typeof valor !== 'number') return; //não deixa passar se não for numero
+                    estoque = valor;
+                }
+            });
+
+        }
+
+        //linkando os prototypes
+        Caneca.prototype = Object.create(Produto.prototype);
+        Caneca.prototype.constructor = Caneca; //prototype da caneca
+
+
+        const produto = new Produto('Gen', 111);
+        const camiseta = new Camiseta('regata', 7.5, 'preta');
+        const caneca = new Caneca('caneca', 13, 'plastico', 5)
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
